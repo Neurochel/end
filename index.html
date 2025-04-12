@@ -1,0 +1,2279 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Теплова Смерть Всесвіту | Секретний Проект</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #02111b;
+            --secondary-color: #041a2b;
+            --accent-color: #ff3800;
+            --text-color: #d0d0d0;
+            --highlight-color: #ffffff;
+            --NASA-blue: #0b3d91;
+            --NASA-red: #fc3d21;
+            --NYT-black: #121212;
+            --NYT-gray: #666666;
+            --NYT-light: #f7f7f7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Playfair Display', serif;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(11, 61, 145, 0.1) 0%, transparent 80%),
+                linear-gradient(rgba(2, 17, 27, 0.99), rgba(2, 17, 27, 0.99)),
+                url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='20' height='20' fill='none' stroke='%230b3d91' stroke-opacity='0.05' stroke-width='0.5'/%3E%3C/svg%3E");
+        }
+
+        /* Welcome Screen */
+        #welcome-screen {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--primary-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+            overflow: hidden;
+        }
+
+        .welcome-background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at center, rgba(11, 61, 145, 0.15) 0%, transparent 70%),
+                linear-gradient(rgba(2, 17, 27, 0.95), rgba(2, 17, 27, 0.95));
+            z-index: -1;
+        }
+
+        .radar-sweep {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: conic-gradient(from 0deg, transparent, rgba(11, 61, 145, 0.3), transparent);
+            animation: sweep 5s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes sweep {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .welcome-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(11, 61, 145, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(11, 61, 145, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: -1;
+        }
+
+        .nasa-badge {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--highlight-color);
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .nasa-badge::before {
+            content: '★';
+            font-size: 30px;
+            color: var(--NASA-red);
+            margin-bottom: 5px;
+        }
+
+        .nasa-badge p {
+            font-size: 14px;
+            letter-spacing: 2px;
+            margin: 2px 0;
+        }
+
+        .mission-id {
+            font-weight: bold;
+            color: var(--NASA-blue);
+            background-color: var(--highlight-color);
+            padding: 2px 8px;
+            border-radius: 2px;
+            margin-top: 5px;
+        }
+
+        #robot-container {
+            width: 60%;
+            height: 60%;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        #enter-btn {
+            margin-top: 20px;
+            padding: 15px 40px;
+            background-color: rgba(252, 61, 33, 0.9);
+            color: var(--highlight-color);
+            border: none;
+            border-radius: 0;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(252, 61, 33, 0.5);
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        #enter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.6s;
+        }
+
+        #enter-btn:hover::before {
+            left: 100%;
+        }
+
+        #enter-btn:hover {
+            background-color: var(--NASA-red);
+            letter-spacing: 5px;
+            box-shadow: 0 0 30px rgba(252, 61, 33, 0.8);
+        }
+
+        /* Choice Screen */
+        #choice-screen {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--primary-color);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 900;
+        }
+
+        .choice-btn {
+            margin: 15px;
+            padding: 15px 40px;
+            background-color: rgba(11, 61, 145, 0.9);
+            color: var(--highlight-color);
+            border: none;
+            border-radius: 0;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(11, 61, 145, 0.5);
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .choice-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.6s;
+        }
+
+        .choice-btn:hover::before {
+            left: 100%;
+        }
+
+        .choice-btn:hover {
+            letter-spacing: 5px;
+            box-shadow: 0 0 30px rgba(11, 61, 145, 0.8);
+        }
+
+        #continue-btn {
+            background-color: rgba(11, 61, 145, 0.9);
+        }
+
+        #continue-btn:hover {
+            background-color: var(--NASA-blue);
+        }
+
+        #exit-btn {
+            background-color: rgba(252, 61, 33, 0.9);
+        }
+
+        #exit-btn:hover {
+            background-color: var(--NASA-red);
+        }
+
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--secondary-color);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 800;
+            color: var(--highlight-color);
+            background-image: 
+                radial-gradient(circle at 50% 30%, rgba(11, 61, 145, 0.2) 0%, transparent 70%),
+                linear-gradient(rgba(4, 26, 43, 0.97), rgba(4, 26, 43, 0.97)),
+                url("data:image/svg+xml,%3Csvg width='30' height='30' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='30' height='30' fill='none' stroke='%230b3d91' stroke-opacity='0.1' stroke-width='0.5'/%3E%3C/svg%3E");
+        }
+
+        #loading-bar-container {
+            width: 60%;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin-top: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #loading-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--NASA-blue), var(--NASA-red));
+            transition: width 0.3s ease;
+            position: relative;
+        }
+
+        #loading-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            animation: loading-shine 1.5s linear infinite;
+        }
+
+        @keyframes loading-shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        #loading-percentage {
+            position: absolute;
+            top: -25px;
+            right: 0;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 14px;
+            color: var(--highlight-color);
+        }
+
+        #loading-text {
+            font-size: 18px;
+            margin-top: 20px;
+            text-align: center;
+            font-family: 'Roboto Mono', monospace;
+            letter-spacing: 1px;
+            color: var(--NASA-red);
+        }
+
+        #scanning-info {
+            margin-top: 40px;
+            font-size: 14px;
+            text-align: left;
+            width: 60%;
+            color: var(--text-color);
+            font-family: 'Roboto Mono', monospace;
+            overflow: hidden;
+            height: 250px;
+            border: 1px solid rgba(11, 61, 145, 0.5);
+            padding: 15px;
+            background-color: rgba(2, 17, 27, 0.7);
+            position: relative;
+            box-shadow: 0 0 20px rgba(11, 61, 145, 0.3);
+        }
+
+        #scanning-info::before {
+            content: 'TERMINAL OUTPUT';
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            background-color: var(--secondary-color);
+            padding: 0 10px;
+            font-size: 12px;
+            color: var(--NASA-blue);
+        }
+
+        .scanning-line {
+            margin-bottom: 5px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .scanning-line::before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: var(--NASA-red);
+        }
+
+        .scanning-success {
+            color: #4caf50;
+        }
+
+        .scanning-warning {
+            color: #ff9800;
+        }
+
+        .scanning-error {
+            color: #f44336;
+        }
+
+        .loading-stats {
+            display: flex;
+            justify-content: space-between;
+            width: 60%;
+            margin-top: 40px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 12px;
+        }
+
+        .stat-box {
+            background-color: rgba(2, 17, 27, 0.7);
+            padding: 10px 15px;
+            border: 1px solid rgba(11, 61, 145, 0.5);
+            width: 32%;
+            position: relative;
+        }
+
+        .stat-box::before {
+            content: attr(data-label);
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            background-color: var(--secondary-color);
+            padding: 0 5px;
+            font-size: 10px;
+            color: var(--NASA-blue);
+        }
+
+        .stat-value {
+            font-size: 16px;
+            color: var(--highlight-color);
+            margin-top: 5px;
+        }
+
+        /* System coordinates display */
+        .coordinates-display {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 12px;
+            color: var(--NASA-blue);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .coordinates-row {
+            display: flex;
+            margin-bottom: 5px;
+        }
+
+        .coordinates-label {
+            width: 100px;
+            color: var(--text-color);
+        }
+
+        .coordinates-value {
+            color: var(--NASA-red);
+        }
+
+        /* Scanner animation */
+        .scanner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: rgba(252, 61, 33, 0.5);
+            box-shadow: 0 0 10px rgba(252, 61, 33, 0.7);
+            animation: scan-animation 3s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes scan-animation {
+            0% { top: 0; opacity: 0.7; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        /* Mission timer */
+        .mission-timer {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 14px;
+            color: var(--text-color);
+            text-align: right;
+        }
+
+        .timer-label {
+            color: var(--NASA-red);
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .timer-value {
+            color: var(--highlight-color);
+            font-size: 18px;
+            letter-spacing: 2px;
+        }
+
+        /* Main Content */
+        #main-content {
+            display: none;
+            padding: 80px 0 50px;
+            position: relative;
+            background-color: var(--primary-color);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 50% 10%, rgba(11, 61, 145, 0.1) 0%, transparent 80%),
+                linear-gradient(rgba(2, 17, 27, 0.97), rgba(2, 17, 27, 0.97)),
+                url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='40' height='40' fill='none' stroke='%230b3d91' stroke-opacity='0.04' stroke-width='0.5'/%3E%3C/svg%3E");
+        }
+
+        .classified-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--NASA-red);
+            color: white;
+            text-align: center;
+            padding: 8px 0;
+            font-weight: bold;
+            z-index: 100;
+            font-family: 'Roboto Mono', monospace;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-size: 14px;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 20px rgba(252, 61, 33, 0.7);
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.9; background-color: rgba(252, 61, 33, 0.9); }
+            50% { opacity: 1; background-color: rgba(252, 61, 33, 1); }
+            100% { opacity: 0.9; background-color: rgba(252, 61, 33, 0.9); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 60px;
+            background-color: var(--secondary-color);
+            border-radius: 0;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
+            margin-top: 60px;
+            position: relative;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(11, 61, 145, 0.2);
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(135deg, rgba(11, 61, 145, 0.05) 25%, transparent 25%) -20px 0,
+                linear-gradient(225deg, rgba(11, 61, 145, 0.05) 25%, transparent 25%) -20px 0,
+                linear-gradient(315deg, rgba(11, 61, 145, 0.05) 25%, transparent 25%),
+                linear-gradient(45deg, rgba(11, 61, 145, 0.05) 25%, transparent 25%);
+            background-size: 40px 40px;
+            z-index: -1;
+        }
+
+        h1 {
+            font-size: 60px;
+            color: var(--highlight-color);
+            text-align: center;
+            margin-bottom: 50px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            line-height: 1.1;
+            font-style: italic;
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            display: block;
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--NYT-gray), transparent);
+            margin: 25px auto 0;
+        }
+
+        h1::before {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 50px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'%3E%3Ccircle cx='25' cy='25' r='20' fill='none' stroke='%23fc3d21' stroke-width='1.5'/%3E%3Ccircle cx='25' cy='25' r='15' fill='none' stroke='%230b3d91' stroke-width='1.5'/%3E%3Ctext x='25' y='30' text-anchor='middle' font-family='Arial' font-size='20' fill='%23ffffff'%3E★%3C/text%3E%3C/svg%3E");
+            position: absolute;
+            top: -70px;
+            left: calc(50% - 25px);
+        }
+
+        h2 {
+            font-size: 32px;
+            color: var(--NASA-red);
+            margin-top: 60px;
+            margin-bottom: 30px;
+            font-weight: 700;
+            border-left: 4px solid var(--NASA-red);
+            padding-left: 20px;
+            line-height: 1.2;
+            font-style: italic;
+            position: relative;
+        }
+
+        h2:first-of-type {
+            margin-top: 0;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100px;
+            height: 1px;
+            background-color: var(--NASA-red);
+        }
+
+        p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            line-height: 1.8;
+            font-family: 'Source Sans Pro', sans-serif;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        p::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 5px;
+            height: 5px;
+            background-color: var(--NASA-blue);
+            border-radius: 50%;
+        }
+
+        .highlight {
+            color: var(--highlight-color);
+            font-weight: bold;
+            background: linear-gradient(transparent 70%, rgba(252, 61, 33, 0.3) 30%);
+            padding: 0 5px;
+        }
+
+        .big-letter {
+            float: left;
+            font-size: 78px;
+            line-height: 1;
+            margin-right: 10px;
+            color: var(--NASA-blue);
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            margin-top: 5px;
+        }
+
+        .media-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), box-shadow 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            cursor: pointer;
+            height: 250px;
+        }
+
+        .image-container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9);
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .image-container:hover img {
+            transform: scale(1.05);
+        }
+
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(4, 26, 43, 0.9), transparent);
+            padding: 30px 20px 20px;
+            transform: translateY(calc(100% - 60px));
+            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .image-container:hover .image-overlay {
+            transform: translateY(0);
+        }
+
+        .image-title {
+            color: var(--highlight-color);
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+        }
+
+        .image-desc {
+            color: var(--text-color);
+            font-size: 14px;
+            font-family: 'Source Sans Pro', sans-serif;
+            line-height: 1.4;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            transition-delay: 0.1s;
+        }
+
+        .image-container:hover .image-desc {
+            opacity: 1;
+        }
+
+        .video-section {
+            margin: 80px 0;
+            background-color: var(--primary-color);
+            padding: 40px;
+            border-radius: 0;
+            position: relative;
+            border: 1px solid rgba(11, 61, 145, 0.2);
+        }
+
+        .video-section::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            background-color: var(--NASA-blue);
+            color: var(--highlight-color);
+            padding: 5px 15px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 14px;
+            letter-spacing: 2px;
+            content: 'CONFIDENTIAL';
+        }
+
+        .video-section::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fc3d21' d='M4,2C2.9,2 2,2.9 2,4V16C2,17.1 2.9,18 4,18H8V21.5C8,21.78 8.22,22 8.5,22H15.5C15.78,22 16,21.78 16,21.5V18H20C21.1,18 22,17.1 22,16V4C22,2.9 21.1,2 20,2H4M4,4H20V16H4V4M8,10H16V12H8V10M8,14H16V16H8V14Z'/%3E%3C/svg%3E");
+            opacity: 0.7;
+        }
+
+        .videos-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .video-wrapper {
+            position: relative;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(11, 61, 145, 0.4);
+        }
+
+        .video-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background-color: rgba(11, 61, 145, 0.5);
+            z-index: 1;
+        }
+
+        .video-wrapper::after {
+            content: 'LIVE FEED';
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--NASA-red);
+            color: var(--highlight-color);
+            padding: 2px 10px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 10px;
+            z-index: 2;
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            display: block;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .calculations {
+            margin-top: 0;
+            padding: 15px;
+            background-color: rgba(2, 17, 27, 0.9);
+            border-top: none;
+            font-family: 'Roboto Mono', monospace;
+            color: var(--highlight-color);
+            height: 150px;
+            overflow: hidden;
+            position: relative;
+            font-size: 12px;
+            line-height: 1.5;
+            border: 1px solid rgba(11, 61, 145, 0.4);
+            border-top: none;
+        }
+
+        .calculation-line {
+            animation: scroll-up 20s linear infinite;
+            position: absolute;
+            width: 100%;
+        }
+
+        @keyframes scroll-up {
+            0% { top: 150px; }
+            100% { top: -300px; }
+        }
+
+        /* Particle Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        /* Glitch Effect */
+        .glitch {
+            position: relative;
+            color: var(--highlight-color);
+            display: inline-block;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .glitch::before {
+            left: 2px;
+            text-shadow: -1px 0 red;
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+        }
+
+        .glitch::after {
+            left: -2px;
+            text-shadow: 1px 0 blue;
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+            clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
+        }
+
+        @keyframes glitch-anim-1 {
+            0% { transform: translateX(-2px); }
+            20% { transform: translateX(2px); }
+            40% { transform: translateX(-2px); }
+            60% { transform: translateX(2px); }
+            80% { transform: translateX(-2px); }
+            100% { transform: translateX(2px); }
+        }
+
+        @keyframes glitch-anim-2 {
+            0% { transform: translateX(2px); }
+            20% { transform: translateX(-2px); }
+            40% { transform: translateX(2px); }
+            60% { transform: translateX(-2px); }
+            80% { transform: translateX(2px); }
+            100% { transform: translateX(-2px); }
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(11, 61, 145, 0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(11, 61, 145, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--primary-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--NASA-blue);
+            border-radius: 0;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--NASA-red);
+        }
+
+        .secret-stamp {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: var(--NASA-red);
+            border: 2px solid var(--NASA-red);
+            padding: 10px;
+            transform: rotate(15deg);
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 14px;
+            animation: stamp-pulse 3s infinite;
+            font-family: 'Roboto Mono', monospace;
+            box-shadow: 0 0 10px rgba(252, 61, 33, 0.5);
+            background: rgba(252, 61, 33, 0.1);
+        }
+
+        @keyframes stamp-pulse {
+            0% { opacity: 0.6; transform: rotate(15deg) scale(1); }
+            50% { opacity: 1; transform: rotate(15deg) scale(1.05); }
+            100% { opacity: 0.6; transform: rotate(15deg) scale(1); }
+        }
+
+        /* Audio Controls */
+        #audio-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(11, 61, 145, 0.7);
+            padding: 10px;
+            border-radius: 50%;
+            z-index: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+            box-shadow: 0 0 15px rgba(11, 61, 145, 0.5);
+        }
+
+        #audio-controls:hover {
+            background-color: var(--NASA-red);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(252, 61, 33, 0.7);
+        }
+
+        .audio-icon {
+            width: 24px;
+            height: 24px;
+            fill: var(--highlight-color);
+        }
+
+        /* Animated Background Lines */
+        .bg-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .horizontal-line {
+            position: absolute;
+            height: 1px;
+            background-color: var(--NASA-blue);
+            width: 100%;
+            animation: scan 10s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: -10px; opacity: 0; }
+            5% { opacity: 1; }
+            95% { opacity: 1; }
+            100% { top: 100vh; opacity: 0; }
+        }
+
+        .typing-effect {
+            border-right: 2px solid var(--highlight-color);
+            white-space: nowrap;
+            overflow: hidden;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--highlight-color) }
+        }
+
+        /* New NYT-style flourishes */
+        .nyt-flourish {
+            text-align: center;
+            margin: 50px 0;
+            position: relative;
+        }
+
+        .nyt-flourish::before {
+            content: '⁂';
+            font-size: 30px;
+            color: var(--NASA-blue);
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .nyt-flourish::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--NYT-gray), transparent);
+            margin: 10px auto 0;
+        }
+
+        .pull-quote {
+            margin: 50px 0;
+            padding: 30px 50px;
+            position: relative;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 24px;
+            color: var(--highlight-color);
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .pull-quote::before,
+        .pull-quote::after {
+            content: '"';
+            position: absolute;
+            font-size: 120px;
+            font-family: 'Playfair Display', serif;
+            opacity: 0.2;
+            color: var(--NASA-red);
+        }
+
+        .pull-quote::before {
+            top: 0;
+            left: 0;
+        }
+
+        .pull-quote::after {
+            bottom: -50px;
+            right: 0;
+        }
+
+        /* NASA mission style footer */
+        .mission-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: var(--primary-color);
+            margin-top: 50px;
+            border-top: 1px solid rgba(11, 61, 145, 0.3);
+            font-family: 'Roboto Mono', monospace;
+            font-size: 12px;
+            color: var(--text-color);
+        }
+
+        .mission-id-footer {
+            display: flex;
+            align-items: center;
+        }
+
+        .mission-logo {
+            width: 30px;
+            height: 30px;
+            margin-right: 15px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%230b3d91' stroke='%23ffffff' stroke-width='0.5'/%3E%3Ctext x='12' y='16' text-anchor='middle' font-family='Arial' font-size='12' fill='%23ffffff'%3E★%3C/text%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .mission-code {
+            letter-spacing: 1px;
+        }
+
+        .mission-date {
+            color: var(--NASA-red);
+        }
+
+        /* NASA callouts */
+        .nasa-callout {
+            background-color: rgba(11, 61, 145, 0.1);
+            border-left: 4px solid var(--NASA-blue);
+            padding: 20px;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .nasa-callout::before {
+            content: 'SCIENTIFIC NOTE';
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            background-color: var(--NASA-blue);
+            color: var(--highlight-color);
+            padding: 2px 10px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .nasa-callout p {
+            margin-bottom: 0;
+            font-size: 18px;
+            color: var(--highlight-color);
+        }
+
+        .nasa-callout p::before {
+            display: none;
+        }
+
+        /* Read more section */
+        .read-more-section {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(11, 61, 145, 0.3);
+        }
+
+        .read-more-title {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 24px;
+            color: var(--highlight-color);
+            margin-bottom: 20px;
+        }
+
+        .read-more-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .read-more-item {
+            background-color: rgba(4, 26, 43, 0.5);
+            padding: 20px;
+            border: 1px solid rgba(11, 61, 145, 0.2);
+            transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .read-more-item:hover {
+            background-color: rgba(11, 61, 145, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .read-more-item-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            color: var(--highlight-color);
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .read-more-item-desc {
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        /* Page decorations */
+        .corner-decoration {
+            position: fixed;
+            width: 100px;
+            height: 100px;
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .corner-decoration-top-left {
+            top: 0;
+            left: 0;
+            border-top: 2px solid var(--NASA-blue);
+            border-left: 2px solid var(--NASA-blue);
+        }
+
+        .corner-decoration-top-right {
+            top: 0;
+            right: 0;
+            border-top: 2px solid var(--NASA-red);
+            border-right: 2px solid var(--NASA-red);
+        }
+
+        .corner-decoration-bottom-left {
+            bottom: 0;
+            left: 0;
+            border-bottom: 2px solid var(--NASA-red);
+            border-left: 2px solid var(--NASA-red);
+        }
+
+        .corner-decoration-bottom-right {
+            bottom: 0;
+            right: 0;
+            border-bottom: 2px solid var(--NASA-blue);
+            border-right: 2px solid var(--NASA-blue);
+        }
+
+        /* Fancy scrollbar */
+        .scroll-indicator {
+            position: fixed;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 100px;
+            background-color: rgba(4, 26, 43, 0.5);
+            z-index: 100;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .scroll-indicator-fill {
+            width: 100%;
+            background-color: var(--NASA-red);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        /* Bootstrap-style container for responsiveness */
+        @media (max-width: 1200px) {
+            .container {
+                max-width: 90%;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .media-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .read-more-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+            h1 {
+                font-size: 40px;
+            }
+            h2 {
+                font-size: 28px;
+            }
+            p {
+                font-size: 18px;
+            }
+            .videos-container {
+                grid-template-columns: 1fr;
+            }
+            .media-container {
+                grid-template-columns: 1fr;
+            }
+            .read-more-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Cool vignette effect */
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.9);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Tech decoration styles */
+        .tech-decoration {
+            position: fixed;
+            font-family: 'Roboto Mono', monospace;
+            opacity: 0.3;
+            z-index: -1;
+            color: var(--NASA-blue);
+            font-size: 12px;
+            pointer-events: none;
+        }
+
+        .tech-decoration-1 {
+            top: 20px;
+            left: 20px;
+            transform: rotate(-90deg) translateX(-100%);
+            transform-origin: top left;
+        }
+
+        .tech-decoration-2 {
+            bottom: 20px;
+            right: 20px;
+            transform: rotate(90deg) translateX(100%);
+            transform-origin: bottom right;
+        }
+
+        /* Hexagonal pattern for NASA tech style */
+        .hex-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='%230b3d91' fill-opacity='0.05' fill-rule='nonzero'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.1;
+            z-index: -2;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Corner Decorations -->
+    <div class="corner-decoration corner-decoration-top-left"></div>
+    <div class="corner-decoration corner-decoration-top-right"></div>
+    <div class="corner-decoration corner-decoration-bottom-left"></div>
+    <div class="corner-decoration corner-decoration-bottom-right"></div>
+
+    <!-- Tech Decorations -->
+    <div class="tech-decoration tech-decoration-1">SYS.REF.4582-ALPHA // THERMAL.DEATH</div>
+    <div class="tech-decoration tech-decoration-2">COSMIC.ENTROPY.ANALYSIS // TOP.SECRET</div>
+
+    <!-- Vignette Effect -->
+    <div class="vignette"></div>
+
+    <!-- Hexagonal Pattern -->
+    <div class="hex-pattern"></div>
+
+    <!-- Grid Overlay -->
+    <div class="grid-overlay"></div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+        <div class="scroll-indicator-fill" id="scroll-fill"></div>
+    </div>
+
+    <!-- Animated Background Lines -->
+    <div class="bg-lines">
+        <div class="horizontal-line"></div>
+    </div>
+
+    <!-- Welcome Screen with Robot -->
+    <div id="welcome-screen">
+        <div class="welcome-background"></div>
+        <div class="radar-sweep"></div>
+        <div class="welcome-grid"></div>
+
+        <div class="nasa-badge">
+            <p>СЕКРЕТНИЙ ПРОЕКТ</p>
+            <p>TЕПЛОВA СМЕРТЬ ВСЕСВІТУ</p>
+            <div class="mission-id">TS-427-ALPHA</div>
+        </div>
+
+        <div id="robot-container"></div>
+        <button id="enter-btn">УВІЙТИ</button>
+
+        <div class="coordinates-display">
+            <div class="coordinates-row">
+                <div class="coordinates-label">СИСТЕМА:</div>
+                <div class="coordinates-value">TЕПЛОВA-ЕНТРОПІЯ</div>
+            </div>
+            <div class="coordinates-row">
+                <div class="coordinates-label">РІВЕНЬ ДОСТУПУ:</div>
+                <div class="coordinates-value">ОБМЕЖЕНИЙ</div>
+            </div>
+            <div class="coordinates-row">
+                <div class="coordinates-label">СТАТУС:</div>
+                <div class="coordinates-value">ОЧІКУВАННЯ</div>
+            </div>
+        </div>
+
+        <div class="mission-timer">
+            <div class="timer-label">ЧАС ДО ТЕРМАЛЬНОЇ СМЕРТІ</div>
+            <div class="timer-value" id="timer-value">10^100 РОКІВ</div>
+        </div>
+    </div>
+
+    <!-- Choice Screen -->
+    <div id="choice-screen">
+        <div class="welcome-background"></div>
+        <div class="radar-sweep"></div>
+        <div class="welcome-grid"></div>
+        <div class="scanner"></div>
+
+        <div id="robot-container-choice"></div>
+        <div style="display: flex; margin-top: 30px;">
+            <button id="continue-btn" class="choice-btn">ПРОДОВЖИТИ</button>
+            <button id="exit-btn" class="choice-btn">ВИЙТИ</button>
+        </div>
+
+        <div class="coordinates-display">
+            <div class="coordinates-row">
+                <div class="coordinates-label">СИСТЕМА:</div>
+                <div class="coordinates-value">TЕПЛОВA-ЕНТРОПІЯ</div>
+            </div>
+            <div class="coordinates-row">
+                <div class="coordinates-label">ФАЗА:</div>
+                <div class="coordinates-value">ВИБІР ОПЦІЇ</div>
+            </div>
+            <div class="coordinates-row">
+                <div class="coordinates-label">СТАТУС:</div>
+                <div class="coordinates-value">ОЧІКУВАННЯ</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="scanner"></div>
+        <h2 class="glitch" data-text="ІДЕНТИФІКАЦІЯ...">ІДЕНТИФІКАЦІЯ...</h2>
+        <div id="loading-bar-container">
+            <div id="loading-bar"></div>
+            <div id="loading-percentage">0%</div>
+        </div>
+        <div id="loading-text">Зачекайте, проводимо сканування...</div>
+
+        <div class="loading-stats">
+            <div class="stat-box" data-label="ЛОКАЦІЯ">
+                <div class="stat-value" id="location-stat">СКАНУВАННЯ...</div>
+            </div>
+            <div class="stat-box" data-label="РІВЕНЬ ДОСТУПУ">
+                <div class="stat-value" id="access-stat">ПЕРЕВІРКА...</div>
+            </div>
+            <div class="stat-box" data-label="СТАТУС ЗАХИСТУ">
+                <div class="stat-value" id="security-stat">АНАЛІЗ...</div>
+            </div>
+        </div>
+
+        <div id="scanning-info"></div>
+
+        <div class="coordinates-display">
+            <div class="coordinates-row">
+                <div class="coordinates-label">ПРОТОКОЛ:</div>
+                <div class="coordinates-value">БЕЗПЕКА-АЛЬФА</div>
+            </div>
+            <div class="coordinates-row">
+                <div class="coordinates-label">МОДУЛЬ:</div>
+                <div class="coordinates-value">СКАНЕР V4.7</div>
+            </div>
+            <div class="coordinates-row">
+                <div class="coordinates-label">ПРОЦЕС:</div>
+                <div class="coordinates-value">ІДЕНТИФІКАЦІЯ</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content">
+        <div class="classified-header">
+            ЦІЛКОМ ТАЄМНО | СЕКРЕТНИЙ ПРОЕКТ NASA | ДЛЯ СЛУЖБОВОГО КОРИСТУВАННЯ
+        </div>
+
+        <div class="container">
+            <div class="secret-stamp">TOP SECRET</div>
+            <h1 class="glitch" data-text="ТЕПЛОВА СМЕРТЬ ВСЕСВІТУ">ТЕПЛОВА СМЕРТЬ ВСЕСВІТУ</h1>
+
+            <div class="section">
+                <h2>Частина 1: Вступ та Загадка</h2>
+                <p><span class="big-letter">П</span>риготуйся, зараз твій мозок вибухне, ми занурюємося в одну з найбільш вражаючих, наймасштабніших, і, можливо, найбільш тривожних ідей, коли-небудь народжених людською думкою. Забудь про астероїди, забудь про ядерні війни, чи вторгнення прибульців, це – фінал фіналів, фінал, продиктований самими законами фізики. Це, мій друже, <span class="highlight">Теплова Смерть Всесвіту</span>. Звучить якось нудно, так? "Теплова смерть"? Повір, тільки не зараз!</p>
+
+                <div class="nasa-callout">
+                    <p>Згідно з останніми квантовими розрахунками, термодинамічний стан максимальної ентропії може статися через приблизно 10^100 років від сьогоднішнього дня. Всі структури, що містять інформацію, в кінцевому підсумку розчиняться.</p>
+                </div>
+
+                <div class="media-container">
+                    <div class="image-container">
+                        <img src="image1.jpg" alt="Теплова смерть всесвіту">
+                        <div class="image-overlay">
+                            <div class="image-title">Візуалізація ентропії</div>
+                            <div class="image-desc">Концептуальне представлення безладу у Всесвіті — кожна точка символізує частинку, що прямує до стану максимального хаосу.</div>
+                        </div>
+                    </div>
+                    <div class="image-container">
+                        <img src="image2.jpg" alt="Галактика">
+                        <div class="image-overlay">
+                            <div class="image-title">Галактичний центр</div>
+                            <div class="image-desc">Зірковий кластер у центрі Чумацького Шляху — приклад тимчасової концентрації енергії, що в кінцевому підсумку розсіється.</div>
+                        </div>
+                    </div>
+                    <div class="image-container">
+                        <img src="image3.jpg" alt="Закони фізики">
+                        <div class="image-overlay">
+                            <div class="image-title">Квантові рівняння</div>
+                            <div class="image-desc">Математичне представлення Другого закону термодинаміки, що регулює неминучість збільшення ентропії у будь-якій замкнутій системі.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nyt-flourish"></div>
+
+            <div class="section">
+                <h2>Частина 2: Закон Безладу</h2>
+                <p><span class="big-letter">У</span>яви собі, по-перше, космічний безлад, адже в основі всього лежить невблаганний, безжальний Другий закон термодинаміки. Простіше кажучи, все у Всесвіті, абсолютно все, прагне до максимального безладу, до ентропії. Твоя кімната, вона ж сама не прибирається, правда, а гаряча кава, вона сама холоне, а не нагрівається, це все він, цей всемогутній закон. Енергія, вона любить "розтікатися", переходити від концентрованого стану, до розсіяного, хаотичного.</p>
+            </div>
+
+            <div class="pull-quote">
+                Теплова Смерть, це стан АБСОЛЮТНОЇ, КОСМІЧНОЇ НУДЬГИ. Уяви вічну стагнацію, у цьому стані нічого, абсолютно нічого, ніколи, більше не відбувається.
+            </div>
+
+            <div class="section">
+                <h2>Частина 3: Космічна Вечірка Зараз</h2>
+                <p><span class="big-letter">П</span>о-друге, зрозумій, наш Всесвіт зараз, це немовби бурхлива, шалена вечірка. Зірки сяють, викидаючи немислиму кількість енергії, галактики обертаються, стикаються, створюючи феєричне шоу, нові зірки народжуються з пилу старих, уже загиблих. Скрізь, повсюди, є різниця, різниця температур, тиску, щільності, і саме ця різниця, цей перепад, дозволяє енергії перетікати, виконувати роботу, створювати складні структури, такі як планети, життя, і, звісно, нас із тобою!</p>
+            </div>
+
+            <div class="video-section">
+                <h2>Наукові Симуляції</h2>
+                <p>Нижче представлені наукові симуляції процесів, пов'язаних з тепловою смертю Всесвіту. Ці дані є результатом багаторічних розрахунків і спостережень.</p>
+
+                <div class="videos-container">
+                    <div class="video-wrapper">
+                        <video autoplay loop muted>
+                            <source src="video1.mp4" type="video/mp4">
+                            Ваш браузер не підтримує відео тег.
+                        </video>
+                        <div class="calculations">
+                            <div class="calculation-line">
+                                <span style="color: #fc3d21;">[CALC]</span> Розрахунок #1: Ентропія зростає з коефіцієнтом 3.14159e+7 за секунду<br>
+                                <span style="color: #0b3d91;">[SIM]</span> Симуляція #2458: Температура знижується до 2.7K за 10^100 років<br>
+                                <span style="color: #fc3d21;">[EVENT]</span> Подія #45982: Розпад останніх протонів через 10^40 років<br>
+                                <span style="color: #0b3d91;">[SYS]</span> Система #7821: Розрідження матерії до 10^-78 г/см³<br>
+                                <span style="color: #fc3d21;">[CALC]</span> Розрахунок #892: Випаровування останньої чорної діри через 10^100 років<br>
+                                <span style="color: #0b3d91;">[PRED]</span> Прогноз #4721: Досягнення повної ентропії через 10^150 років<br>
+                                <span style="color: #fc3d21;">[SIM]</span> Симуляція #9934: Повна термодинамічна рівновага<br>
+                                <span style="color: #0b3d91;">[EVENT]</span> Подія #215: Остаточне затухання фотонів до надінфрачервоного спектру<br>
+                                <span style="color: #fc3d21;">[SYS]</span> Система #531: Перехід до стану квантової істини<br>
+                                <span style="color: #0b3d91;">[CALC]</span> Розрахунок #6721: Фазовий перехід вакууму через 10^120 років
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="video-wrapper">
+                        <video autoplay loop muted>
+                            <source src="video2.mp4" type="video/mp4">
+                            Ваш браузер не підтримує відео тег.
+                        </video>
+                        <div class="calculations">
+                            <div class="calculation-line">
+                                <span style="color: #fc3d21;">[HORIZON]</span> Event Horizon #78: Границя спостереження розширюється зі швидкістю 73.5 км/с/Мпк<br>
+                                <span style="color: #0b3d91;">[QUANTUM]</span> Quantum Fluctuation #459: Ймовірність виникнення Больцманівського мозку 10^-10^50<br>
+                                <span style="color: #fc3d21;">[ENERGY]</span> Dark Energy Vector: Прискорення розширення 2.1x10^-35 м/с²<br>
+                                <span style="color: #0b3d91;">[TUNNEL]</span> Квантовий тунельний ефект: Ймовірність спонтанного відродження 10^-10^120<br>
+                                <span style="color: #fc3d21;">[SIM]</span> Симуляція космологічної константи: λ = 1.1056 × 10^-52 м^-2<br>
+                                <span style="color: #0b3d91;">[SPACE]</span> Просторово-часова деформація: Критичний рівень досягається через 10^200 років<br>
+                                <span style="color: #fc3d21;">[CALC]</span> Розрахунок кривизни простору: R = 10^-124 м^-2<br>
+                                <span style="color: #0b3d91;">[TEMP]</span> Кінцева температура: 10^-100 K<br>
+                                <span style="color: #fc3d21;">[VACUUM]</span> Щільність енергії вакууму: 10^-8 джоулів/м³<br>
+                                <span style="color: #0b3d91;">[TIME]</span> Часовий горизонт: 5.4x10^100 років до повної втрати інформації
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Частина 4: Кінець Вечірки - Згасання Зірок</h2>
+                <p><span class="big-letter">А</span>ле, на жаль, вечірка не вічна. Другий закон термодинаміки, він працює і в космічних масштабах, невблаганно, крок за кроком, ведучи все до фіналу. Зірки догорять, так, через трильйони й трильйони років останні зірки вичерпають своє паливо, вони згаснуть, перетворяться на холодних, тьмяних білих карликів, нейтронні зірки, або ж, на вічні пастки, чорні діри. Всесвіт зануриться в майже абсолютну, непроглядну темряву.</p>
+            </div>
+
+            <div class="nyt-flourish"></div>
+
+            <div class="section">
+                <h2>Частина 5: Розчинення Галактик та Випаровування Чорних Дір</h2>
+                <p><span class="big-letter">Г</span>алактики, вони теж розпадуться, гравітація ще довго утримуватиме залишки зірок разом, але з часом, за немислимо довгі епохи, і галактики почнуть "розчинятися", втрачаючи свою структуру. Навіть чорні діри, ці монстри гравітації, вони не вічні! Завдяки квантовому ефекту, відомому як випромінювання Гокінга, вони будуть неймовірно, нестерпно повільно втрачати масу, випромінюючи слабенькі частинки. Це займе абсурдно, неймовірно довгий час, порядку десяти в сотому степені років, або навіть більше, але врешті-решт, і вони зникнуть, розчиняться в порожнечі.</p>
+
+                <div class="nasa-callout">
+                    <p>Згідно з рівняннями Стівена Гокінга, чорна діра масою нашого Сонця випарується за 10^67 років. Масивні чорні діри в центрах галактик можуть існувати до 10^100 років, перш ніж повністю зникнути.</p>
+                </div>
+
+                <div class="media-container">
+                    <div class="image-container">
+                        <img src="image4.jpg" alt="Чорна діра">
+                        <div class="image-overlay">
+                            <div class="image-title">Випромінювання Гокінга</div>
+                            <div class="image-desc">Візуалізація процесу випаровування чорної діри через квантові флуктуації на горизонті подій.</div>
+                        </div>
+                    </div>
+                    <div class="image-container">
+                        <img src="image5.jpg" alt="Загибель галактики">
+                        <div class="image-overlay">
+                            <div class="image-title">Фінальна стадія</div>
+                            <div class="image-desc">Розпад галактичних структур у далекому майбутньому, коли гравітаційні зв'язки ослабнуть через розширення Всесвіту.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Частина 6: Фінальний Стан - Абсолютний Нуль</h2>
+                <p><span class="big-letter">І</span> що ж залишиться, запитаєш ти? Залишиться величезний, темний, неймовірно розріджений простір, заповнений лише розсіяними, самотніми елементарними частинками, фотонами, нейтрино, можливо, електронами та позитронами, які безцільно блукатимуть у цій вічній порожнечі. Температура, вона скрізь, у кожній точці цього безмежного простору, буде однаковою, нескінченно близькою до абсолютного нуля. Жодної різниці потенціалів, жодної можливості для енергії перетікати, жодної можливості виконувати роботу.</p>
+            </div>
+
+            <div class="pull-quote">
+                Це буде вічна, незмінна, холодна, мертва тиша... У цьому стані навіть час втрачає своє значення, адже час визначається змінами, а змін більше не буде.
+            </div>
+
+            <div class="section">
+                <h2>Частина 7: "БУМ!" - Що Таке Теплова Смерть Насправді</h2>
+                <p><span class="big-letter">І</span> ось тут, саме тут, починається справжній "БУМ"! Теплова Смерть, це не "смерть" у нашому, людському, звичному розумінні. Ні, це стан АБСОЛЮТНОЇ, КОСМІЧНОЇ НУДЬГИ. Уяви вічну стагнацію, у цьому стані нічого, абсолютно нічого, ніколи, більше не відбувається. Немає руху, крім хаотичного, безглуздого блукання частинок, немає змін, немає навіть часу в нашому розумінні, бо час, він же визначається змінами, подіями. Це буде вічна, незмінна, холодна, мертва тиша.</p>
+            </div>
+
+            <div class="section">
+                <h2>Частина 8: Наслідки - Кінець Складності та Парадокс Початку</h2>
+                <p><span class="big-letter">Ц</span>е кінець складності, жодної можливості для формування зірок, планет, тим більше життя. Навіть найпростіші хімічні реакції, вони стануть неможливими. Всесвіт досягне стану максимального безладу, максимальної ентропії, який, як не парадоксально, виглядає як ідеальний порядок, ідеальна, нудна однорідність. І тут же виникає парадокс початку, якщо Всесвіт так невблаганно рухається до максимального безладу, то чому, чорт забирай, він взагалі почався в такому неймовірно впорядкованому стані, стані низької ентропії, одразу після Великого Вибуху? Це, досі, одне з найвеличніших питань сучасної космології!</p>
+            </div>
+
+            <div class="nyt-flourish"></div>
+
+            <div class="section">
+                <h2>Частина 9: Чому Це Вражає - Масштаб та Закони</h2>
+                <p><span class="big-letter">Ч</span>ому це все має викликати у тебе "БУМ", а не просто сум? По-перше, масштаб, це змушує усвідомити НЕЙМОВІРНІ, немислимі часові та просторові масштаби Всесвіту. Наше існування, вся історія людства, вся історія Землі, навіть усе життя нашого Сонця, це лише коротка, незначна мить перед лицем цієї прийдешньої космічної вічності. По-друге, невблаганність законів, це демонструє фундаментальну, незламну силу фізичних законів, які керують долею всього сущого, від твоєї чашки кави, до цілого Всесвіту.</p>
+            </div>
+
+            <div class="section">
+                <h2>Частина 10: Екзистенційна Перспектива та Цінність Сьогодення</h2>
+                <p><span class="big-letter">П</span>о-третє, екзистенційна перспектива, чи має сенс хоч щось, якщо все, абсолютно все, врешті-решт, розчиниться в цьому холодному, байдужому небутті? Або, навпаки, можливо, саме це робить наше сьогодення, нашу унікальну здатність мислити, творити, відчувати, любити, ще ціннішим, ще дивовижнішим, дорогоцінним дарунком?</p>
+
+                <div class="nasa-callout">
+                    <p>Згідно з розрахунками теоретичної фізики, людство живе в унікальну епоху Всесвіту — достатньо пізню для формування складних структур, але задовго до космічної теплової смерті. Це «вікно можливостей» для існування складних форм життя.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Частина 11: Важливе Застереження - Це Лише Гіпотеза</h2>
+                <p><span class="big-letter">І</span> найголовніше, це НЕ остаточний вердикт! Важливо пам'ятати, Теплова Смерть, це лише гіпотеза, заснована на нашому, поточному, можливо, неповному, розумінні фізики. Можливо, існують невідомі нам закони природи, можливо, темна енергія, яка зараз прискорює розширення Всесвіту, приведе нас до зовсім іншого фіналу, наприклад, до "Великого Розриву", коли розірветься сама тканина простору-часу. Можливо, Всесвіт циклічний, і після смерті на нього чекає стиснення, і новий Великий Вибух, новий початок. Можливо навіть, що квантові флуктуації, випадкові коливання, навіть у стані повної теплової смерті, можуть теоретично, через немислимо, абсурдно гігантські проміжки часу, породити щось нове, наприклад, випадковий мозок, що думає про свою самотність, так званий Больцманівський мозок.</p>
+            </div>
+
+            <div class="section">
+                <h2>Частина 12: Висновок - Погляд у Безодню Часу</h2>
+                <p><span class="big-letter">У</span> підсумку, Теплова Смерть, це не просто суха наукова концепція, це надпотужний ментальний експеримент, експеримент епічних масштабів. Це погляд у саму безодню часу, погляд, який змушує переосмислити наше місце у Всесвіті, наше значення, нашу місію. Це яскраве нагадування про те, наскільки дивовижним, наскільки динамічним, наскільки сповненим енергії та змін є поточний стан космосу, і наскільки крихкою, наскільки швидкоплинною може бути вся та складність, яку ми маємо щастя спостерігати навколо себе, і частиною якої є ми самі. Тепер, твій мозок, він точно мав отримати той самий обіцяний "БУМ". Ти щойно, буквально, зазирнув у можливий кінець усього сущого. Не у вогні, не в льоді, а в нескінченній, холодній, незмінній, абсолютній тиші... Усвідомлюєш?</p>
+            </div>
+
+            <div class="read-more-section">
+                <div class="read-more-title">Пов'язані космічні феномени</div>
+                <div class="read-more-grid">
+                    <div class="read-more-item">
+                        <div class="read-more-item-title">Великий Вибух</div>
+                        <div class="read-more-item-desc">Теорія про початок Всесвіту, коли весь простір, час та енергія були сконцентровані в одній точці.</div>
+                    </div>
+                    <div class="read-more-item">
+                        <div class="read-more-item-title">Великий Розрив</div>
+                        <div class="read-more-item-desc">Гіпотетичний сценарій кінця Всесвіту, коли прискорення розширення розірве всі структури.</div>
+                    </div>
+                    <div class="read-more-item">
+                        <div class="read-more-item-title">Больцманівський мозок</div>
+                        <div class="read-more-item-desc">Концепція самосвідомості, що виникає випадково з квантових флуктуацій у стані високої ентропії.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mission-footer">
+                <div class="mission-id-footer">
+                    <div class="mission-logo"></div>
+                    <div class="mission-code">ПРОЕКТ TS-427-ALPHA</div>
+                </div>
+                <div class="mission-date">ТЕРМІН ДІЇ: НЕОБМЕЖЕНИЙ</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio Controls -->
+    <div id="audio-controls">
+        <svg class="audio-icon" viewBox="0 0 24 24">
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+        </svg>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="background-music" loop>
+        <source src="background-music.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="robot-intro">
+        <source src="robot-intro.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="robot-continue">
+        <source src="robot-continue.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="robot-exit">
+        <source src="robot-exit.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="button-click">
+        <source src="button-click.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Initialize variables
+        let audioPlaying = false;
+        let robotAnimation;
+        let robotChoiceAnimation;
+        let timerInterval;
+
+        // DOM elements
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const choiceScreen = document.getElementById('choice-screen');
+        const loadingScreen = document.getElementById('loading-screen');
+        const mainContent = document.getElementById('main-content');
+        const enterBtn = document.getElementById('enter-btn');
+        const continueBtn = document.getElementById('continue-btn');
+        const exitBtn = document.getElementById('exit-btn');
+        const loadingBar = document.getElementById('loading-bar');
+        const loadingPercentage = document.getElementById('loading-percentage');
+        const loadingText = document.getElementById('loading-text');
+        const scanningInfo = document.getElementById('scanning-info');
+        const audioControls = document.getElementById('audio-controls');
+        const timerValue = document.getElementById('timer-value');
+        const scrollFill = document.getElementById('scroll-fill');
+        const locationStat = document.getElementById('location-stat');
+        const accessStat = document.getElementById('access-stat');
+        const securityStat = document.getElementById('security-stat');
+
+        // Audio elements
+        const backgroundMusic = document.getElementById('background-music');
+        backgroundMusic.volume = 0.3;
+        const robotIntro = document.getElementById('robot-intro');
+        const robotContinue = document.getElementById('robot-continue');
+        const robotExit = document.getElementById('robot-exit');
+        const buttonClick = document.getElementById('button-click');
+
+        // Create timer animation
+        function startTimerAnimation() {
+            const times = ['10^100 РОКІВ', '10^99 РОКІВ', '10^101 РОКІВ', '10^98 РОКІВ', '10^100 РОКІВ'];
+            let index = 0;
+
+            timerInterval = setInterval(() => {
+                index = (index + 1) % times.length;
+                timerValue.textContent = times[index];
+            }, 3000);
+        }
+
+        // Scroll indicator
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.body.offsetHeight;
+            const winHeight = window.innerHeight;
+            const scrollPercent = scrollTop / (docHeight - winHeight);
+            scrollFill.style.height = scrollPercent * 100 + '%';
+        });
+
+        // Set up particles.js for background effect
+        function initParticles() {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": {
+                        "value": 80,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": "#0b3d91"
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        },
+                        "polygon": {
+                            "nb_sides": 5
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.5,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 3,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 2,
+                            "size_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#0b3d91",
+                        "opacity": 0.4,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 1,
+                        "direction": "none",
+                        "random": true,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": false,
+                            "rotateX": 600,
+                            "rotateY": 1200
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "grab"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "grab": {
+                            "distance": 140,
+                            "line_linked": {
+                                "opacity": 1
+                            }
+                        },
+                        "bubble": {
+                            "distance": 400,
+                            "size": 40,
+                            "duration": 2,
+                            "opacity": 8,
+                            "speed": 3
+                        },
+                        "repulse": {
+                            "distance": 200,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        },
+                        "remove": {
+                            "particles_nb": 2
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
+        }
+
+        // Set up Three.js for 3D robot
+        function initRobot() {
+            try {
+                // Create script elements dynamically to ensure correct loading order
+                const loadThree = document.createElement('script');
+                loadThree.src = 'https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js';
+                loadThree.onload = function() {
+                    const loadGLTFLoader = document.createElement('script');
+                    loadGLTFLoader.src = 'https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/GLTFLoader.js';
+
+                    loadGLTFLoader.onload = function() {
+                        const loadOrbitControls = document.createElement('script');
+                        loadOrbitControls.src = 'https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js';
+
+                        loadOrbitControls.onload = function() {
+                            // Now all scripts are loaded, initialize the robot
+                            createRobot();
+                        };
+
+                        document.head.appendChild(loadOrbitControls);
+                    };
+
+                    document.head.appendChild(loadGLTFLoader);
+                };
+
+                document.head.appendChild(loadThree);
+
+                function createRobot() {
+                    // Scene
+                    const scene = new THREE.Scene();
+                    scene.background = new THREE.Color(0x02111b);
+
+                    // Camera
+                    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+                    camera.position.z = 5;
+
+                    // Renderer
+                    const renderer = new THREE.WebGLRenderer({ antialias: true });
+                    renderer.setSize(400, 400);
+                    document.getElementById('robot-container').innerHTML = '';
+                    document.getElementById('robot-container').appendChild(renderer.domElement);
+
+                    // Lights
+                    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+                    scene.add(ambientLight);
+
+                    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+                    directionalLight.position.set(0, 1, 1);
+                    scene.add(directionalLight);
+
+                    const spotLight = new THREE.SpotLight(0x0b3d91, 1);
+                    spotLight.position.set(0, 5, 5);
+                    spotLight.angle = Math.PI / 6;
+                    spotLight.penumbra = 0.1;
+                    scene.add(spotLight);
+
+                    // Add a placeholder cube while waiting for the model
+                    const geometry = new THREE.BoxGeometry(2, 2, 2);
+                    const material = new THREE.MeshPhongMaterial({ 
+                        color: 0x0b3d91,
+                        emissive: 0x072534,
+                        side: THREE.DoubleSide,
+                        flatShading: true
+                    });
+                    const cube = new THREE.Mesh(geometry, material);
+                    scene.add(cube);
+
+                    // Animation function
+                    const animate = function() {
+                        robotAnimation = requestAnimationFrame(animate);
+
+                        cube.rotation.y += 0.01;
+                        cube.rotation.x += 0.005;
+
+                        renderer.render(scene, camera);
+                    };
+
+                    animate();
+
+                    // Load robot model
+                    const loader = new THREE.GLTFLoader();
+                    loader.load('robot.glb', 
+                        // Success callback
+                        (gltf) => {
+                            const robot = gltf.scene;
+                            robot.scale.set(2, 2, 2);
+                            scene.remove(cube); // Remove placeholder
+                            scene.add(robot);
+
+                            // Update animation function
+                            robotAnimation = null; // Cancel existing animation
+
+                            const animate = function() {
+                                robotAnimation = requestAnimationFrame(animate);
+
+                                robot.rotation.y += 0.01;
+
+                                renderer.render(scene, camera);
+                            };
+
+                            animate();
+                        },
+                        // Progress callback
+                        (xhr) => {
+                            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                        },
+                        // Error callback
+                        (error) => {
+                            console.error('An error happened loading the robot model', error);
+                            // Keep the cube animation running if model fails to load
+                        }
+                    );
+                }
+            } catch (e) {
+                console.error('Error initializing robot:', e);
+                // Add fallback content if Three.js fails
+                document.getElementById('robot-container').innerHTML = '<div style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background-color: #041a2b; color: white; font-family: \'Roboto Mono\', monospace;">Робот-аналізатор готовий</div>';
+            }
+        }
+
+        // Set up Three.js for robot in choice screen
+        function initRobotChoice() {
+            try {
+                // Check if THREE is loaded
+                if (typeof THREE === 'undefined') {
+                    // THREE.js not loaded yet, add fallback
+                    document.getElementById('robot-container-choice').innerHTML = '<div style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background-color: #041a2b; color: white; font-family: \'Roboto Mono\', monospace;">Робот-аналізатор очікує</div>';
+                    return;
+                }
+
+                // Scene
+                const scene = new THREE.Scene();
+                scene.background = new THREE.Color(0x02111b);
+
+                // Camera
+                const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+                camera.position.z = 5;
+
+                // Renderer
+                const renderer = new THREE.WebGLRenderer({ antialias: true });
+                renderer.setSize(400, 400);
+                document.getElementById('robot-container-choice').innerHTML = '';
+                document.getElementById('robot-container-choice').appendChild(renderer.domElement);
+
+                // Lights
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+                scene.add(ambientLight);
+
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+                directionalLight.position.set(0, 1, 1);
+                scene.add(directionalLight);
+
+                const spotLight = new THREE.SpotLight(0xfc3d21, 1);
+                spotLight.position.set(0, 5, 5);
+                spotLight.angle = Math.PI / 6;
+                spotLight.penumbra = 0.1;
+                scene.add(spotLight);
+
+                // Add a placeholder cube while waiting for the model
+                const geometry = new THREE.BoxGeometry(2, 2, 2);
+                const material = new THREE.MeshPhongMaterial({ 
+                    color: 0xfc3d21,
+                    emissive: 0x722111,
+                    side: THREE.DoubleSide,
+                    flatShading: true
+                });
+                const cube = new THREE.Mesh(geometry, material);
+                scene.add(cube);
+
+                // Animation function
+                const animate = function() {
+                    robotChoiceAnimation = requestAnimationFrame(animate);
+
+                    cube.rotation.y += 0.01;
+                    cube.rotation.x += 0.005;
+
+                    renderer.render(scene, camera);
+                };
+
+                animate();
+
+                // Load robot model
+                if (typeof THREE.GLTFLoader !== 'undefined') {
+                    const loader = new THREE.GLTFLoader();
+                    loader.load('robot.glb', 
+                        // Success callback
+                        (gltf) => {
+                            const robot = gltf.scene;
+                            robot.scale.set(2, 2, 2);
+                            scene.remove(cube); // Remove placeholder
+                            scene.add(robot);
+
+                            // Update animation function
+                            robotChoiceAnimation = null; // Cancel existing animation
+
+                            const animate = function() {
+                                robotChoiceAnimation = requestAnimationFrame(animate);
+
+                                robot.rotation.y += 0.01;
+
+                                renderer.render(scene, camera);
+                            };
+
+                            animate();
+                        },
+                        // Progress callback
+                        (xhr) => {
+                            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                        },
+                        // Error callback
+                        (error) => {
+                            console.error('An error happened loading the robot model', error);
+                            // Keep the cube animation running if model fails to load
+                        }
+                    );
+                }
+            } catch (e) {
+                console.error('Error initializing choice robot:', e);
+                // Add fallback content if Three.js fails
+                document.getElementById('robot-container-choice').innerHTML = '<div style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background-color: #041a2b; color: white; font-family: \'Roboto Mono\', monospace;">Робот-аналізатор очікує</div>';
+            }
+        }
+
+        // Simulated loading screen text
+        function simulateScanning() {
+            const scanningMessages = [
+                "<span class='scanning-line'>Ініціалізація протоколу сканування...</span>",
+                "<span class='scanning-line'>Встановлення захищеного з'єднання...</span>",
+                "<span class='scanning-line'>Визначення IP-адреси: 192.168.1.X</span>",
+                "<span class='scanning-line'>Геолокація: <span class='scanning-success'>успішно</span></span>",
+                "<span class='scanning-line'>Аналіз системи користувача...</span>",
+                "<span class='scanning-line'>Підключення до серверів NASA...</span>",
+                "<span class='scanning-line'>Відстеження активності браузера...</span>",
+                "<span class='scanning-line'>Отримання доступу до камери: <span class='scanning-error'>заблоковано</span></span>",
+                "<span class='scanning-line'>Отримання доступу до мікрофону: <span class='scanning-error'>заблоковано</span></span>",
+                "<span class='scanning-line'>Визначення апаратної конфігурації... <span class='scanning-success'>успішно</span></span>",
+                "<span class='scanning-line'>Перевірка рівня допуску...</span>",
+                "<span class='scanning-line'>Аналіз історії пошуку: <span class='scanning-warning'>в процесі</span></span>",
+                "<span class='scanning-line'>Збір метаданих... <span class='scanning-success'>успішно</span></span>",
+                "<span class='scanning-line'>Перевірка криптографічних ключів...</span>",
+                "<span class='scanning-line'>Зв'язок із супутником: <span class='scanning-success'>встановлено</span></span>",
+                "<span class='scanning-line'>Трасування шляху мережі...</span>",
+                "<span class='scanning-line'>Аналіз безпеки з'єднання... <span class='scanning-success'>успішно</span></span>",
+                "<span class='scanning-line'>Перевірка на наявність шпигунського ПЗ...</span>",
+                "<span class='scanning-line'>Сканування біометричних даних: <span class='scanning-warning'>обмежено</span></span>",
+                "<span class='scanning-line'>Аналіз шаблонів клавіатурного введення...</span>",
+                "<span class='scanning-line'>Збір зразків голосу через мікрофон: <span class='scanning-error'>обмежено</span></span>",
+                "<span class='scanning-line'>Встановлення профілю користувача... <span class='scanning-success'>успішно</span></span>",
+                "<span class='scanning-line'>Перехресна перевірка з базою даних NASA...</span>",
+                "<span class='scanning-line'>Рівень загрози: <span class='scanning-success'>низький</span></span>",
+                "<span class='scanning-line'>Криптографічний захист: <span class='scanning-success'>активовано</span></span>",
+                "<span class='scanning-line'>Перевірка на наявність ботів... <span class='scanning-success'>людина</span></span>",
+                "<span class='scanning-line'>Аналіз поведінкових патернів...</span>",
+                "<span class='scanning-line'>Завантаження психологічного профілю...</span>",
+                "<span class='scanning-line'>Аналіз соціальних зв'язків...</span>",
+                "<span class='scanning-line'>Перевірка квантової стійкості ключів...</span>",
+                "<span class='scanning-line'>Сканування завершено. Рівень доступу: <span class='scanning-success'>НАДАНО</span></span>"
+            ];
+
+            let index = 0;
+            let scanningInterval = setInterval(() => {
+                scanningInfo.innerHTML += scanningMessages[index];
+                scanningInfo.scrollTop = scanningInfo.scrollHeight;
+                index++;
+
+                if (index >= scanningMessages.length) {
+                    clearInterval(scanningInterval);
+
+                    // After scanning completes, finish loading and show main content
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                        mainContent.style.display = 'block';
+                        backgroundMusic.play();
+                        audioPlaying = true;
+
+                        // Update audio icon
+                        audioControls.innerHTML = `
+                            <svg class="audio-icon" viewBox="0 0 24 24">
+                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                            </svg>
+                        `;
+
+                        // Initialize particles after main content is shown
+                        initParticles();
+
+                        // Add horizontal lines periodically
+                        setInterval(() => {
+                            const line = document.createElement('div');
+                            line.classList.add('horizontal-line');
+                            document.querySelector('.bg-lines').appendChild(line);
+
+                            setTimeout(() => {
+                                line.remove();
+                            }, 5000);
+                        }, 2000);
+                    }, 1000);
+                }
+            }, 300);
+        }
+
+        // Simulated loading progress
+        function simulateLoading() {
+            let progress = 0;
+            let locations = ['США', 'УКРАЇНА', 'ЄВРОПА', 'НЕВІДОМО', 'УКРАЇНА'];
+            let accessLevels = ['АНАЛІЗ...', 'НИЗЬКИЙ', 'СЕРЕДНІЙ', 'ЗАБЛОКОВАНО', 'НАДАНО'];
+            let securityStatuses = ['ВРАЗЛИВИЙ', 'АНАЛІЗ...', 'ЗАХИЩЕНИЙ', 'КОМПРОМЕТОВАНО', 'НАДІЙНИЙ'];
+
+            const loadingInterval = setInterval(() => {
+                progress += Math.random() * 5;
+                if (progress > 100) progress = 100;
+
+                loadingBar.style.width = progress + '%';
+                loadingPercentage.textContent = Math.floor(progress) + '%';
+
+                // Update stats randomly
+                if (Math.random() < 0.3) {
+                    locationStat.textContent = locations[Math.floor(Math.random() * locations.length)];
+                }
+
+                if (Math.random() < 0.3) {
+                    accessStat.textContent = accessLevels[Math.floor(Math.random() * accessLevels.length)];
+                }
+
+                if (Math.random() < 0.3) {
+                    securityStat.textContent = securityStatuses[Math.floor(Math.random() * securityStatuses.length)];
+                }
+
+                if (progress === 100) {
+                    clearInterval(loadingInterval);
+                    loadingText.textContent = "Сканування завершено. Перевірка дозволу...";
+
+                    // Set final stats
+                    locationStat.textContent = 'УКРАЇНА';
+                    accessStat.textContent = 'НАДАНО';
+                    securityStat.textContent = 'ЗАХИЩЕНИЙ';
+
+                    setTimeout(() => {
+                        simulateScanning();
+                    }, 1000);
+                }
+            }, 200);
+        }
+
+        // Initialize everything when page loads
+        window.addEventListener('load', () => {
+            initRobot();
+            startTimerAnimation();
+
+            // Add animated horizontal lines
+            setInterval(() => {
+                const line = document.createElement('div');
+                line.classList.add('horizontal-line');
+                document.querySelector('.bg-lines').appendChild(line);
+
+                setTimeout(() => {
+                    line.remove();
+                }, 5000);
+            }, 2000);
+        });
+
+        // Button click event listeners
+        enterBtn.addEventListener('click', () => {
+            buttonClick.play();
+            robotIntro.play();
+
+            robotIntro.addEventListener('ended', () => {
+                welcomeScreen.style.display = 'none';
+                choiceScreen.style.display = 'flex';
+                clearInterval(timerInterval);
+                cancelAnimationFrame(robotAnimation);
+                initRobotChoice();
+            }, { once: true });
+        });
+
+        continueBtn.addEventListener('click', () => {
+            buttonClick.play();
+            choiceScreen.style.display = 'none';
+            loadingScreen.style.display = 'flex';
+            cancelAnimationFrame(robotChoiceAnimation);
+
+            robotContinue.play();
+
+            robotContinue.addEventListener('ended', () => {
+                simulateLoading();
+            }, { once: true });
+        });
+
+        exitBtn.addEventListener('click', () => {
+            buttonClick.play();
+            robotExit.play();
+
+            robotExit.addEventListener('ended', () => {
+                choiceScreen.style.display = 'none';
+                welcomeScreen.style.display = 'flex';
+                cancelAnimationFrame(robotChoiceAnimation);
+                initRobot();
+                startTimerAnimation();
+            }, { once: true });
+        });
+
+        // Audio controls
+        audioControls.addEventListener('click', () => {
+            buttonClick.play();
+
+            if (audioPlaying) {
+                backgroundMusic.pause();
+                audioControls.innerHTML = `
+                    <svg class="audio-icon" viewBox="0 0 24 24">
+                        <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                    </svg>
+                `;
+                audioPlaying = false;
+            } else {
+                backgroundMusic.play();
+                audioControls.innerHTML = `
+                    <svg class="audio-icon" viewBox="0 0 24 24">
+                        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                    </svg>
+                `;
+                audioPlaying = true;
+            }
+        });
+    </script>
+</body>
+</html>
